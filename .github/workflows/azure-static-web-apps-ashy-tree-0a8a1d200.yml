@@ -13,12 +13,32 @@ jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+
+    env: # ← Define reusable environment variables here
+      API_URL: ${{ secrets.API_URL }}
+      APPS_MARKETPLACE_API_URL: ${{ secrets.APPS_MARKETPLACE_API_URL }}
+      EXTENSIONS_API_URL: ${{ secrets.EXTENSIONS_API_URL }}
+      DEMO_MODE: ${{ secrets.DEMO_MODE }}
+      LOCALE_CODE: ${{ secrets.LOCALE_CODE }}
+
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
+      - name: Inject environment variables into .env
+        run: |
+          cd saleor-dashboard
+          echo "API_URL=$API_URL" > .env
+          echo "APPS_MARKETPLACE_API_URL=$APPS_MARKETPLACE_API_URL" >> .env
+          echo "EXTENSIONS_API_URL=$EXTENSIONS_API_URL" >> .env
+          echo "DEMO_MODE=$DEMO_MODE" >> .env
+          echo "LOCALE_CODE=$LOCALE_CODE" >> .env
+
+      - name: Print API_URL
+        run: echo "API_URL $API_URL"
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
