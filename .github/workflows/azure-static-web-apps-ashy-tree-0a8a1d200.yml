@@ -29,7 +29,6 @@ jobs:
           lfs: false
       - name: Inject environment variables into .env
         run: |
-          cd saleor-dashboard
           echo "API_URL=$API_URL" > .env
           echo "APPS_MARKETPLACE_API_URL=$APPS_MARKETPLACE_API_URL" >> .env
           echo "EXTENSIONS_API_URL=$EXTENSIONS_API_URL" >> .env
