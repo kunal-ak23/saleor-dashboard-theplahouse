@@ -20,6 +20,7 @@ jobs:
       EXTENSIONS_API_URL: ${{ secrets.EXTENSIONS_API_URL }}
       DEMO_MODE: ${{ secrets.DEMO_MODE }}
       LOCALE_CODE: ${{ secrets.LOCALE_CODE }}
+      JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
 
     name: Build and Deploy Job
     steps:
@@ -34,6 +35,7 @@ jobs:
           echo "EXTENSIONS_API_URL=$EXTENSIONS_API_URL" >> .env
           echo "DEMO_MODE=$DEMO_MODE" >> .env
           echo "LOCALE_CODE=$LOCALE_CODE" >> .env
+          echo "JWT_PUBLIC_KEY=$JWT_PUBLIC_KEY" >> .env
 
       - name: Print API_URL
         run: echo "API_URL $API_URL"
