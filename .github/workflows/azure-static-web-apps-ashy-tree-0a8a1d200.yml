@@ -21,6 +21,7 @@ jobs:
       DEMO_MODE: ${{ secrets.DEMO_MODE }}
       LOCALE_CODE: ${{ secrets.LOCALE_CODE }}
       JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+      STATIC_URL: ${{ secrets.STATIC_URL }}
 
     name: Build and Deploy Job
     steps:
@@ -36,6 +37,7 @@ jobs:
           echo "DEMO_MODE=$DEMO_MODE" >> .env
           echo "LOCALE_CODE=$LOCALE_CODE" >> .env
           echo "JWT_PUBLIC_KEY=$JWT_PUBLIC_KEY" >> .env
+          echo "STATIC_URL=$STATIC_URL" >> .env
 
       - name: Print API_URL
         run: echo "API_URL $API_URL"
