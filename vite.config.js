@@ -2,11 +2,40 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react-swc";
 import { CodeInspectorPlugin } from "code-inspector-plugin";
-import { copyFileSync, mkdirSync } from "fs";
+import { copyFileSync, mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import { defineConfig, loadEnv, searchForWorkspaceRoot } from "vite";
 import { createHtmlPlugin } from "vite-plugin-html";
+
+const generateRoutesJsonPlugin = () => ({
+  name: "generate-routes-json",
+  apply: "build",
+  writeBundle: () => {
+    const outputDir = path.resolve("build", "dashboard");
+    const filePath = path.join(outputDir, "routes.json");
+
+    mkdirSync(outputDir, { recursive: true });
+    writeFileSync(
+      filePath,
+      JSON.stringify(
+        {
+          routes: [
+            {
+              route: "/*",
+              serve: "/index.html",
+              statusCode: 200,
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+
+    console.log("✅ routes.json generated in build/dashboard");
+  },
+});
 
 const copyNoopSW = () => ({
   name: "copy-noop-sw",
@@ -111,6 +140,7 @@ export default defineConfig(({ command, mode }) => {
     }),
     copyOgImage(),
     copyNoopSW(),
+    generateRoutesJsonPlugin(),
   ];
 
   if (!isDev) {
