@@ -3,7 +3,7 @@ import "./index.css";
 
 import { ApolloProvider } from "@apollo/client";
 import DemoBanner from "@dashboard/components/DemoBanner";
-import { history, Route, Router } from "@dashboard/components/Router";
+import { history, Route } from "@dashboard/components/Router";
 import { extensionsSection } from "@dashboard/extensions/urls";
 import { PermissionEnum } from "@dashboard/graphql";
 import useAppState from "@dashboard/hooks/useAppState";
@@ -19,7 +19,7 @@ import { render } from "react-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import TagManager from "react-gtm-module";
 import { useIntl } from "react-intl";
-import { Switch } from "react-router-dom";
+import { HashRouter, Switch } from "react-router-dom";
 
 import { AppsSectionRoot } from "./apps";
 import { AppSections } from "./apps/urls";
@@ -112,7 +112,7 @@ handleLegacyTheming();
 const App: React.FC = () => (
   <SaleorProvider client={saleorClient}>
     <ApolloProvider client={apolloClient}>
-      <Router>
+      <HashRouter>
         <LegacyThemeProvider overrides={themeOverrides} palettes={paletteOverrides}>
           <ThemeProvider>
             <DateProvider>
@@ -148,7 +148,7 @@ const App: React.FC = () => (
             </DateProvider>
           </ThemeProvider>
         </LegacyThemeProvider>
-      </Router>
+      </HashRouter>
     </ApolloProvider>
   </SaleorProvider>
 );
