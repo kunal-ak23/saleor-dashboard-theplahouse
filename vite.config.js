@@ -8,34 +8,32 @@ import nodePolyfills from "rollup-plugin-polyfill-node";
 import { defineConfig, loadEnv, searchForWorkspaceRoot } from "vite";
 import { createHtmlPlugin } from "vite-plugin-html";
 
-const generateRoutesJsonPlugin = () => ({
-  name: "generate-routes-json",
+const generateStaticWebAppConfig = () => ({
+  name: "generate-staticwebapp-config",
   apply: "build",
   writeBundle: () => {
     const outputDir = path.resolve("build", "dashboard");
-    const filePath = path.join(outputDir, "routes.json");
+    const filePath = path.join(outputDir, "staticwebapp.config.json");
 
     mkdirSync(outputDir, { recursive: true });
     writeFileSync(
       filePath,
       JSON.stringify(
         {
-          routes: [
-            {
-              route: "/*",
-              serve: "/index.html",
-              statusCode: 200,
-            },
-          ],
+          navigationFallback: {
+            rewrite: "/index.html",
+            exclude: ["/assets/*", "/*.js", "/*.css", "/favicon.ico"]
+          },
         },
         null,
         2,
       ),
     );
 
-    console.log("✅ routes.json generated in build/dashboard");
+    console.log("✅ staticwebapp.config.json generated in build/dashboard");
   },
 });
+
 
 const copyNoopSW = () => ({
   name: "copy-noop-sw",
