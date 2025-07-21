@@ -22,7 +22,7 @@ const generateStaticWebAppConfig = () => ({
         {
           navigationFallback: {
             rewrite: "/index.html",
-            exclude: ["/assets/*", "/*.js", "/*.css", "/favicon.ico"]
+            exclude: ["/assets/*", "/*.js", "/*.css", "/favicon.ico"],
           },
         },
         null,
@@ -33,7 +33,6 @@ const generateStaticWebAppConfig = () => ({
     console.log("✅ staticwebapp.config.json generated in build/dashboard");
   },
 });
-
 
 const copyNoopSW = () => ({
   name: "copy-noop-sw",
@@ -138,7 +137,7 @@ export default defineConfig(({ command, mode }) => {
     }),
     copyOgImage(),
     copyNoopSW(),
-    generateRoutesJsonPlugin(),
+    generateStaticWebAppConfig(),
   ];
 
   if (!isDev) {
